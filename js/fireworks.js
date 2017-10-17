@@ -1,9 +1,12 @@
 var canvas = document.querySelector('canvas');
 var button = document.querySelector('button');
 
+var angleRocket = 80;
+
 function Resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  canvas.width < 500 ? angleRocket = 40 : angleRocket = 80;
 };
 
 Resize();
@@ -13,7 +16,6 @@ window.onresize = function() {
 
 var c = canvas.getContext('2d');
 var o;
-var angleRocket = 80;
 
 var rocketResistance = 0.963;
 var sparkResistance = 0.99;
@@ -26,8 +28,9 @@ var sparksNumber = [10, 25];
 var sparksSpeed = 8;
 var rocketSpeedRange = 15;
 var sparkRadiusRange = 1;
+var allowedRockets = 10;
 
-canvas.width < 500 ? angleRocket = 40 : angleRocket = 80;
+// canvas.width < 500 ? angleRocket = 40 : angleRocket = 80;
 
 // var rocketResistance = 0.963;
 // var sparkResistance = 0.94;
@@ -82,7 +85,7 @@ class Fly {
 }
 
 function animate() {
-  var t0 = performance.now();
+  // var t0 = performance.now();
 
   requestAnimationFrame(animate);
   c.globalAlpha = 1;
@@ -103,9 +106,9 @@ function animate() {
           let sparkSAngleJ = Math.random() * (360 / sparkSNumber) + (j / sparkSNumber * 360);
           sparks[o].push(new Fly(rockets[o].x, rockets[o].y, sparksSpeed, sparkSAngleI, sparkSAngleJ, Math.random() * sparkRadiusRange, 1, rockets[o].color));
           // console.log('angle ' + i / 20 * 360 + '; color:' + sparks[o][i].color);
-          // console.log(sparks[o].length);
         }
       }
+      // console.log(o + ': ' + sparks[o].length);
       
     }
     rockets[o].speed *= rocketResistance;
@@ -134,8 +137,8 @@ function animate() {
     // }
 
   }
-  var t1 = performance.now();
-  console.log("Call to doSomething took " + (t1 - t0).toFixed(2) + " milliseconds.");
+  // var t1 = performance.now();
+  // console.log("Call to doSomething took " + (t1 - t0).toFixed(2) + " milliseconds.");
 }
 
 function speedToXY(speed, angle, angleZ = 0) {
@@ -172,12 +175,15 @@ function fuse(speed1, angle1, speed2, angle2) {
 // console.log('@ 1fuse dy: ' + fuse(1, angg, 1, 90).dy);
 
 var rockets = [];
-var sparks = [[], [], [], [], [], [], [], [], [], []];
+var sparks = [];
+for(let x = 0; x < allowedRockets; x++){
+  sparks[x] = [];    
+}
 var id = 0;
 
 button.onclick = function() {
   id++;
-  if (rockets.length > 9) {
+  if (rockets.length > allowedRockets - 1) {
     rockets.shift();
     o--;
   }
