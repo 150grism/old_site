@@ -19,8 +19,8 @@ a {
   color: white;
   background: #424242;
   @media (min-width: 1px) {
-    width: 100vw;
-    height: calc(50vh - 1px);
+    width: calc(100vw - 2px);
+    height: calc(50vh - 2px);
     line-height: 50vh;
     &:first-child {
       border-bottom: 1px solid rgba(0, 0, 0, 0.87);
@@ -28,7 +28,7 @@ a {
   }
   @media (min-width: 701px) {
     width: calc(50vw - 1px);
-    height: 100vh;
+    height: calc(100vh - 2px);
     line-height: 100vh;
     &:first-child {
       border-right: 1px solid rgba(0, 0, 0, 0.87);

@@ -28,8 +28,8 @@ a {
 
 @media (min-width: 1px) {
   a {
-    width: 100vw;
-    height: calc(50vh - 1px);
+    width: calc(100vw - 2px);
+    height: calc(50vh - 2px);
     line-height: 50vh;
   }
   a:first-child {
@@ -40,7 +40,7 @@ a {
 @media (min-width: 701px) {
   a {
     width: calc(50vw - 1px);
-    height: 100vh;
+    height: calc(100vh - 2px);
     line-height: 100vh;
   }
   a:first-child {
