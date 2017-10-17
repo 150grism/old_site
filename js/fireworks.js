@@ -4,8 +4,8 @@ var button = document.querySelector('button');
 var angleRocket = 80;
 
 function Resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth - 2;
+  canvas.height = window.innerHeight - 2;
   canvas.width < 500 ? angleRocket = 40 : angleRocket = 80;
 };
 
