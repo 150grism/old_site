@@ -12,6 +12,7 @@ var dot = false;
 var cv, qw, op;
 var d = new Date();
 var timer;
+var textWithoutCommas;
 
 lastCharacter = (index) => text.charAt(text.length - index);
 
@@ -62,7 +63,7 @@ if (minutes < 10) {
 time.innerHTML = hours + ':' + minutes;
 
 //функционал кнопок:
-document.onclick = function () {
+document.onclick = function (event) {
 
   if (event.target.tagName == 'BUTTON') {
     theButton = event.target;
@@ -180,24 +181,25 @@ document.onclick = function () {
       }
     }
     //Изменяем размер текста на дисплее в зависимости от количества символов
-    if (text.length < 17) {
+    textWithoutCommas = text.replace(/,/g, '');
+    if (textWithoutCommas.length < 15) {
       if (fSize != 1) {
         displayInput.style.fontSize = 31;
         displayResult.style.fontSize = 31;
         fSize = 1;
       }
     }
-    if (text.length >= 17 && text.length < 20) {
+    if (textWithoutCommas.length >= 15 && textWithoutCommas.length < 19) {
       if (fSize != 2) {
-        displayInput.style.fontSize = 27;
-        displayResult.style.fontSize = 27;
+        displayInput.style.fontSize = 24;
+        displayResult.style.fontSize = 24;
         fSize = 2;
       }
     }
-    if (text.length >= 20) {
+    if (textWithoutCommas.length >= 19) {
       if (fSize != 3) {
-        displayInput.style.fontSize = 24;
-        displayResult.style.fontSize = 24;
+        displayInput.style.fontSize = 22;
+        displayResult.style.fontSize = 22;
         fSize = 3;
       }
     }
