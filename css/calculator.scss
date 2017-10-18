@@ -530,6 +530,15 @@ button {
     width: 100vw;
     height: 11%;
   }
+  @media (min-width: 390px) {
+    height: 10%;
+  }
+  @media (min-width: 420px) {
+    height: 9%;
+  }
+  @media (min-width: 450px) {
+    height: 8%;
+  }
   @media (min-width: 481px) {
     width: 325px;
     left: -4.1%;

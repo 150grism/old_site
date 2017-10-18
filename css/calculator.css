@@ -617,6 +617,24 @@ button img {
   }
 }
 
+@media (min-width: 390px) {
+  #border {
+    height: 10%;
+  }
+}
+
+@media (min-width: 420px) {
+  #border {
+    height: 9%;
+  }
+}
+
+@media (min-width: 450px) {
+  #border {
+    height: 8%;
+  }
+}
+
 @media (min-width: 481px) {
   #border {
     width: 325px;
