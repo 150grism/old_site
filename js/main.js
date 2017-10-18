@@ -12,5 +12,4 @@ rowOrColumn();
 
 $(window).on('resize', function() {
   rowOrColumn();
-  console.log('w: ' + $(window).width() + '/ h: ' + $(document).height());
 });
