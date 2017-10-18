@@ -6,7 +6,7 @@ function Resize() {
   canvas.height = window.innerHeight - 2;
   //от ширины канваса зависят угол, под которым вылетают ракеты, и их начальная скорость
   canvas.width < 500 ? angleRocket = 40 : angleRocket = 80;
-  canvas.height < 700 ? rocketSpeedRange = 8 : rocketSpeedRange = 15;
+  canvas.height < 700 ? rocketSpeedRange = 5 : rocketSpeedRange = 15;
 };
 
 Resize();
