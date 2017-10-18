@@ -3,11 +3,10 @@ var displayInput = document.getElementById('display-input');
 var displayResult = document.getElementById('display-result');
 var upToAlert = document.getElementById('alert');
 var time = document.getElementById('time');
-// console.log('butt');
-
 
 var text = '';
 var fSize = 0;
+//dot = true, если добавление точки в число невозможно
 var dot = false;
 var cv, qw, op;
 var d = new Date();
@@ -19,7 +18,6 @@ lastCharacter = (index) => text.charAt(text.length - index);
 //таймер для предупреждения о превышении допустимого количества символов
 endAndStartTimer = () => {
   window.clearTimeout(timer);
-  //var millisecBeforeRedirect = 10000; 
   timer = window.setTimeout(function() {upToAlert.style.display = 'none';}, 3000); 
 }
 
@@ -28,19 +26,13 @@ commaEvery3 = (string, cv, qwLast, checkIfInitialComma = false) => {
   var zx = 0;
   if (qwLast < 3) {return string;}
   for (qw = qwLast; qw > cv; qw--) {
-    // console.log(qw + ' ' + text.charAt(qw) + ' ' + zx);
-    // console.log(qw);
     zx++;
     zx = zx % 3;
     if (zx === 0) {
-      // console.log('zx ' + qw + ' ' + cv);
       //если число, в котором будет добавлять запятые, не первое в инпуте, то запрещаем ставить запятую в начале числа
       if (checkIfInitialComma === true) {
-        // console.log('checkIfInitialComma');
         if (['+', '-', '\u00D7', '\u00F7', '%'].indexOf(string.charAt(qw - 1)) < 0) {
-          // console.log('return');
           string = string.slice(0, qw) + "," + string.slice(qw);
-          // console.log('-> ' + text);
         } else {
           string = string;
         }
@@ -72,7 +64,6 @@ document.onclick = function (event) {
     if (val !== 'backspace' && text.replace(/,/g,'').length > 35) {
       upToAlert.style.display = 'block';
       endAndStartTimer();
-      // setTimeout(function() {upToAlert.style.display = 'none';}, 3000);
       text = text.slice(0, -1);
     }
     //если на момент нажатия кнопки на экране был выведен результат вычесления, стереть результат и стереть инпут юзера
@@ -150,26 +141,13 @@ document.onclick = function (event) {
         //находим первую цифру последнего числа в инпуте (cv) и удаляем из этого числа запятые
         for (cv = text.length - 1; ['+', '-', '\u00D7', '\u00F7', '%', '.'].indexOf(text.charAt(cv)) < 0 && cv > 0; cv--) {}
         text = text.slice(0, cv) + text.slice(cv).replace(/,/g, '');
-        // console.log(text);
         //через каждые три цифры в последнем числе инпута ставим запятую, если эта цифра в числе не первая
-        // var zx = 0;
-        // for (qw = text.length - 1; qw > cv; qw--) {
-        //   // console.log(qw + ' ' + text.charAt(qw) + ' ' + zx);
-        //   zx++;
-        //   zx = zx % 3;
-        //   if (zx === 0 && ['+', '-', '\u00D7', '\u00F7', '%'].indexOf(text.charAt(qw - 1)) < 0) {
-        //     text = text.slice(0, qw) + "," + text.slice(qw);
-        //     // console.log('-> ' + text);
-        //   }
-        // }
         text = commaEvery3(text, cv, text.length - 1, true);
-        // console.log(commaEvery3(text, cv, text.length - 1, true));
         //Удяление запятых после "точки"
         qw = text.lastIndexOf('.');
         if (qw >= cv) {
           //если точка в последнем числе найдена, запрещаем ставить еще точки и удаляем запятые
           dot = true;
-          // console.log(qw + ' --- ' + cv);
           text = text.slice(0, qw) + text.slice(qw).replace(/,/g, '');
         } else {dot = false;}
       //если кнопка - "точка", добавляем её в инпут и запрещаем ставить еще точки
@@ -205,34 +183,26 @@ document.onclick = function (event) {
     }
     displayInput.innerHTML = text;
     console.log(text.length + ': ' + text);
-    // console.log('без , :' + text.replace(/,/g, '').length);
 
     //если кнопка - "равно", запускаем функцию вычисления результата
     if (val === '=') {
       Calculate();
     }
-    // console.log(openParenthesesCount);
   }
 
   Calculate = () => {
     text = text.replace(/,/g, '');
     text = text.replace(/\u00F7/g, '/');
     text = text.replace(/\u00D7/g, '*');
-    // console.clear();
-    // console.log(eval(text));
     //Вычисление процентных значений
     for (let i = 0; i < text.length; i++) {
       //находим последний символ числа с процентом
       if (text.charAt(i) === '%') {
-        // console.log('i:' + i);
         let k = 0, j;
         let percentText;
         //находим первый символ числа с процентом
         for (j = i-1; ['+', '-', '*', '/', '%'].indexOf(text[j]) < 0 && j >= 0; j--) {}
-        // console.log('j:' + j);
         percentText = text.substring(j + 1, i);
-        // console.log(percentText);
-        // percentText = percentText.slice(0, -1);
         console.log(percentText);
         text = text.replace(percentText + '%',parseFloat(percentText) / 100);
         console.log(text);
@@ -241,7 +211,6 @@ document.onclick = function (event) {
     //удаляем неиспользуемые знаки операций в конце инпута
     while (['+', '-', '*', '/'].indexOf(lastCharacter(1)) > -1) {
       text = text.slice(0, -1);
-      // console.log(text);
     }
     //вычисляем результат
     result = eval(text).toString();
@@ -262,15 +231,6 @@ document.onclick = function (event) {
     //... раставляем запятые, если в отображении результата не используется "e"
     if (result.indexOf('e') < 1 && result !== 'Error') {
       result = commaEvery3(result, 0, i - 1, false);
-      // var zx = 0;
-      // for (qw = i - 1; qw > 0; qw--) {
-      //   zx++;
-      //   zx = zx % 3;
-      //   if (zx === 0) {
-      //     result = result.slice(0, qw) + "," + result.slice(qw);
-      //     // console.log('-> ' + result);
-      //   }
-      // }
     }
     //удалем запятую в самом начале числа, если число отрицательное
     if (result.charAt(0) === '-' && result.charAt(1) === ',') {
@@ -278,16 +238,6 @@ document.onclick = function (event) {
     }
     //выводим результат на дисплей
     result = '=' + result; 
-    //ограничение длины результата в зависимости от размера шрифта в инпуте
-    // if (fSize === 1) {
-    //   result = result.slice(0, 16);
-    // }
-    // if (fSize === 2) {
-    //   result = result.slice(0, 17);
-    // }
-    // if (fSize === 3) {
-    //   result = result.slice(0, 20);
-    // }
     displayResult.innerHTML = result;  
   }
 }
