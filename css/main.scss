@@ -2,15 +2,15 @@ body {
   margin: 0;
   display: flex;
   align-items: center;
-  @media (min-width: 1px) {
+  &.column {
     flex-direction: column;
   }
-  @media (min-width: 701px) {
+  &.row {
     flex-direction: row;
   }
 }
 
-.bigones {
+#bigone1, #bigone2 {
   border: 1px solid black;
   text-align: center;
   font-family: 'Rubik', sans-serif;
@@ -23,7 +23,7 @@ body {
     color: #fc82e2;
     background: rgba(66, 66, 66, 0.97);
   }
-  @media (min-width: 1px) {
+  &.column {
     width: calc(100vw - 2px);
     height: calc(50vh - 2px);
     line-height: 50vh;
@@ -31,7 +31,7 @@ body {
       border-bottom: 1px solid rgba(0, 0, 0, 0.87);
     }
   }
-  @media (min-width: 701px) {
+  &.row {
     width: calc(50vw - 1px);
     height: calc(100vh - 2px);
     line-height: 100vh;
@@ -51,11 +51,11 @@ body {
   font-size: 16px;
   font-weight: 300;
   transition: color 0.05s ease-in-out;
-  @media (min-width: 1px) {
+  &.column {
     top: 27.5vh;
     left: calc(50vw - 26px);
   }
-  @media (min-width: 701px) {
+  &.row {
     top: 52.5vh;
     left: calc(25vw - 26px);
   }
@@ -67,10 +67,10 @@ body {
 }
 
 #smallone2 {
-  @media (min-width: 1px) {
+  &.column {
     top: 77.5vh;
   }
-  @media (min-width: 701px) {
+  &.row {
     top: 52.5vh;
     left: calc(75vw - 24px);
   }
