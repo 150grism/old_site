@@ -4,9 +4,10 @@ var button = document.querySelector('button');
 function Resize() {
   canvas.width = window.innerWidth - 2;
   canvas.height = window.innerHeight - 2;
-  //от ширины канваса зависят угол, под которым вылетают ракеты, и их начальная скорость
+  //от ширины канваса зависит угол, под которым вылетают ракеты
   canvas.width < 500 ? angleRocket = 40 : angleRocket = 80;
-  canvas.height < 700 ? rocketSpeedRange = 5 : rocketSpeedRange = 15;
+  //от высоты канваса зависит начальная скорость ракет
+  rocketSpeedRange = canvas.height / 36 - 10;
 };
 
 Resize();
