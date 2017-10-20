@@ -16,13 +16,13 @@ var textWithoutCommas;
 lastCharacter = (index) => text.charAt(text.length - index);
 
 //таймер для предупреждения о превышении допустимого количества символов
-endAndStartTimer = () => {
+var endAndStartTimer = () => {
   window.clearTimeout(timer);
-  timer = window.setTimeout(function() {upToAlert.style.display = 'none';}, 3000); 
-}
+  timer = window.setTimeout(() => {upToAlert.style.display = 'none';}, 3000); 
+};
 
 //добавление запятых каждые 3 символа, начиная с конца инпута
-commaEvery3 = (string, cv, qwLast, checkIfInitialComma = false) => {
+var commaEvery3 = (string, cv, qwLast, checkIfInitialComma = false) => {
   var zx = 0;
   if (qwLast < 3) {return string;}
   for (qw = qwLast; qw > cv; qw--) {
@@ -32,17 +32,17 @@ commaEvery3 = (string, cv, qwLast, checkIfInitialComma = false) => {
       //если число, в котором будет добавлять запятые, не первое в инпуте, то запрещаем ставить запятую в начале числа
       if (checkIfInitialComma === true) {
         if (['+', '-', '\u00D7', '\u00F7', '%'].indexOf(string.charAt(qw - 1)) < 0) {
-          string = string.slice(0, qw) + "," + string.slice(qw);
+          string = string.slice(0, qw) + ',' + string.slice(qw);
         } else {
           string = string;
         }
       } else {
-        string = string.slice(0, qw) + "," + string.slice(qw);
+        string = string.slice(0, qw) + ',' + string.slice(qw);
       }
     }
   }
   return string;
-}
+};
 
 //время в строке состояния
 var hours = d.getHours(), minutes = d.getMinutes();
@@ -54,8 +54,58 @@ if (minutes < 10) {
 } 
 time.innerHTML = hours + ':' + minutes;
 
+//вычисление результата
+var Calculate = () => {
+  text = text.replace(/,/g, '');
+  text = text.replace(/\u00F7/g, '/');
+  text = text.replace(/\u00D7/g, '*');
+  //Вычисление процентных значений
+  for (let i = 0; i < text.length; i++) {
+    //находим последний символ числа с процентом
+    if (text.charAt(i) === '%') {
+      let k = 0, j;
+      let percentText;
+      //находим первый символ числа с процентом
+      for (j = i-1; ['+', '-', '*', '/', '%'].indexOf(text[j]) < 0 && j >= 0; j--) {}
+      percentText = text.substring(j + 1, i);
+      text = text.replace(percentText + '%',parseFloat(percentText) / 100);
+    }
+  }
+  //удаляем неиспользуемые знаки операций в конце инпута
+  while (['+', '-', '*', '/'].indexOf(lastCharacter(1)) > -1) {
+    text = text.slice(0, -1);
+  }
+  //вычисляем результат
+  result = eval(text).toString();
+  //если деление на 0, выдаем ошибку
+  if (result === 'Infinity') {result = 'Error';}
+  let i;
+  //Добавляем в результат запятые
+  //начиная либо с позиции символа "точки", либо с конца ...
+  if (result.indexOf('.') > 0) {
+    i = result.lastIndexOf('.');
+    //сокращаем результат то 10 знаков после запятой (чтобы горизонтальный скроллбар не появлялся в некоторых случаях)
+    if (result.lastIndexOf('e') < 1) {
+      result = result.substr(0, i + 10);
+    }
+  } else {
+    i = result.length;
+  }
+  //... раставляем запятые, если в отображении результата не используется "e"
+  if (result.indexOf('e') < 1 && result !== 'Error') {
+    result = commaEvery3(result, 0, i - 1, false);
+  }
+  //удалем запятую в самом начале числа, если число отрицательное
+  if (result.charAt(0) === '-' && result.charAt(1) === ',') {
+    result = result.slice(0, 1) + result.slice(2, result.length);
+  }
+  //выводим результат на дисплей
+  result = '=' + result; 
+  displayResult.innerHTML = result;  
+};
+
 //функционал кнопок:
-document.onclick = function (event) {
+document.onclick = (event) => {
 
   if (event.target.tagName == 'BUTTON') {
     theButton = event.target;
@@ -162,82 +212,30 @@ document.onclick = function (event) {
     textWithoutCommas = text.replace(/,/g, '');
     if (textWithoutCommas.length < 15) {
       if (fSize != 1) {
-        displayInput.style.fontSize = 31;
-        displayResult.style.fontSize = 31;
+        displayInput.style.fontSize = '31px';
+        displayResult.style.fontSize = '31px';
         fSize = 1;
       }
     }
     if (textWithoutCommas.length >= 15 && textWithoutCommas.length < 19) {
       if (fSize != 2) {
-        displayInput.style.fontSize = 24;
-        displayResult.style.fontSize = 24;
+        displayInput.style.fontSize = '24px';
+        displayResult.style.fontSize = '24px';
         fSize = 2;
       }
     }
     if (textWithoutCommas.length >= 19) {
       if (fSize != 3) {
-        displayInput.style.fontSize = 22;
-        displayResult.style.fontSize = 22;
+        displayInput.style.fontSize = '22px';
+        displayResult.style.fontSize = '22px';
         fSize = 3;
       }
     }
     displayInput.innerHTML = text;
-    console.log(text.length + ': ' + text);
 
     //если кнопка - "равно", запускаем функцию вычисления результата
     if (val === '=') {
       Calculate();
     }
   }
-
-  Calculate = () => {
-    text = text.replace(/,/g, '');
-    text = text.replace(/\u00F7/g, '/');
-    text = text.replace(/\u00D7/g, '*');
-    //Вычисление процентных значений
-    for (let i = 0; i < text.length; i++) {
-      //находим последний символ числа с процентом
-      if (text.charAt(i) === '%') {
-        let k = 0, j;
-        let percentText;
-        //находим первый символ числа с процентом
-        for (j = i-1; ['+', '-', '*', '/', '%'].indexOf(text[j]) < 0 && j >= 0; j--) {}
-        percentText = text.substring(j + 1, i);
-        console.log(percentText);
-        text = text.replace(percentText + '%',parseFloat(percentText) / 100);
-        console.log(text);
-      }
-    }
-    //удаляем неиспользуемые знаки операций в конце инпута
-    while (['+', '-', '*', '/'].indexOf(lastCharacter(1)) > -1) {
-      text = text.slice(0, -1);
-    }
-    //вычисляем результат
-    result = eval(text).toString();
-    //если деление на 0, выдаем ошибку
-    if (result === 'Infinity') {result = 'Error';}
-    let i;
-    //Добавляем в результат запятые
-    //начиная либо с позиции символа "точки", либо с конца ...
-    if (result.indexOf('.') > 0) {
-      i = result.lastIndexOf('.');
-      //сокращаем результат то 10 знаков после запятой (чтобы горизонтальный скроллбар не появлялся в некоторых случаях)
-      if (result.lastIndexOf('e') < 1) {
-        result = result.substr(0, i + 10);
-      };
-    } else {
-      i = result.length;
-    }
-    //... раставляем запятые, если в отображении результата не используется "e"
-    if (result.indexOf('e') < 1 && result !== 'Error') {
-      result = commaEvery3(result, 0, i - 1, false);
-    }
-    //удалем запятую в самом начале числа, если число отрицательное
-    if (result.charAt(0) === '-' && result.charAt(1) === ',') {
-      result = result.slice(0, 1) + result.slice(2, result.length);
-    }
-    //выводим результат на дисплей
-    result = '=' + result; 
-    displayResult.innerHTML = result;  
-  }
-}
+};

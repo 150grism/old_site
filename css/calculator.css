@@ -169,6 +169,7 @@ button {
 
 button img {
   width: 100%;
+  vertical-align: middle;
 }
 
 #backspace {
@@ -587,18 +588,30 @@ button img {
   width: 100%;
 }
 
-#heading h7 {
+@media (min-width: 1px) {
+  #heading {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 481px) {
+  #heading {
+    margin-bottom: 5px;
+  }
+}
+
+#heading p {
   font-weight: 900;
 }
 
 @media (min-width: 1px) {
-  #heading h7 {
+  #heading p {
     font-size: 16px;
   }
 }
 
 @media (min-width: 481px) {
-  #heading h7 {
+  #heading p {
     font-size: 15px;
   }
 }
@@ -617,29 +630,11 @@ button img {
   }
 }
 
-@media (min-width: 390px) {
-  #border {
-    height: 10%;
-  }
-}
-
-@media (min-width: 420px) {
-  #border {
-    height: 9%;
-  }
-}
-
-@media (min-width: 450px) {
-  #border {
-    height: 8%;
-  }
-}
-
 @media (min-width: 481px) {
   #border {
     width: 325px;
     left: -4.1%;
-    height: 58px;
+    height: 65px;
   }
 }
 
