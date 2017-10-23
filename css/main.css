@@ -53,7 +53,7 @@ body.row {
 }
 
 #smallone1, #smallone2 {
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6), 0 0 13px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.4);
   position: absolute;
   font-family: 'Rubik', sans-serif;
   font-size: 16px;
