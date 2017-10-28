@@ -25,8 +25,8 @@ body {
     background: rgba(66, 66, 66, 0.97);
   }
   &.column {
-    width: calc(100vw);
-    height: calc(100vh / #{$numberOfProjects} - 2px);
+    width: 100vw;
+    height: calc(100vh / #{$numberOfProjects});
     line-height: calc(100vh / #{$numberOfProjects} - 25px);
     &:not(:first-of-type) {
       border-top: 2px solid rgba(0, 0, 0, 0.2);
@@ -34,7 +34,7 @@ body {
   }
   &.row {
     width: calc(100vw / #{$numberOfProjects});
-    height: calc(100vh);
+    height: 100vh;
     line-height: 100vh;
     &:not(:first-of-type) {
       border-left: 2px solid rgba(0, 0, 0, 0.2);
