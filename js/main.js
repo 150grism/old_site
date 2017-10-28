@@ -8,6 +8,8 @@ function rowOrColumn() {
   }
 }
 
+document.getElementById("bigone1").scrollIntoView();
+
 rowOrColumn();
 
 $(window).on('resize', function() {
