@@ -8,7 +8,7 @@ function rowOrColumn() {
   }
 }
 
-document.getElementById("bigone1").scrollIntoView();
+window.scrollTo(15, 0);
 
 rowOrColumn();
 
