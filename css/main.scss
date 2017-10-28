@@ -1,7 +1,10 @@
+$numberOfProjects: 3;
+
 body {
   margin: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   &.column {
     flex-direction: column;
   }
@@ -10,8 +13,7 @@ body {
   }
 }
 
-#bigone1, #bigone2 {
-  border: 1px solid black;
+#bigone1, #bigone2, #bigone3 {
   text-align: center;
   font-family: 'Rubik', sans-serif;
   font-size: 16px;
@@ -20,63 +22,70 @@ body {
   background: #424242;
   transition: color 0.05s ease-in-out;
   &:hover {
-    color: #fc82e2;
     background: rgba(66, 66, 66, 0.97);
   }
   &.column {
-    width: calc(100vw - 2px);
-    height: calc(50vh - 2px);
-    line-height: 50vh;
-    &:first-child {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.87);
+    width: calc(100vw);
+    height: calc(100vh / #{$numberOfProjects} - 2px);
+    line-height: calc(100vh / #{$numberOfProjects} - 25px);
+    &:not(:first-of-type) {
+      border-top: 2px solid rgba(0, 0, 0, 0.2);
     }
   }
   &.row {
-    width: calc(50vw - 1px);
-    height: calc(100vh - 2px);
+    width: calc(100vw / #{$numberOfProjects});
+    height: calc(100vh);
     line-height: 100vh;
-    &:first-child {
-      border-right: 1px solid rgba(0, 0, 0, 0.87);
+    &:not(:first-of-type) {
+      border-left: 2px solid rgba(0, 0, 0, 0.2);
     }
   }
 }
 
+#bigone1:hover {
+  color: #fc82e2;
+}
 #bigone2:hover {
   color: #00e5ff;
 }
+#bigone3:hover {
+  color: #d8ff00;
+}
 
-#smallone1, #smallone2 {
+#smallone1, #smallone2, #smallone3 {
+  color: #e0e0e0;
   text-shadow:  0 2px 8px rgba(0,0,0,0.1), 0 2px 13px rgba(0,0,0,0.1);
   position: absolute;
   font-family: 'Rubik', sans-serif;
   font-size: 16px;
   font-weight: 300;
   transition: color 0.05s ease-in-out;
+  text-decoration: none;
   &.column {
-    top: 27.5vh;
     left: calc(50vw - 26px);
   }
   &.row {
     top: 52.5vh;
-    left: calc(25vw - 26px);
-  }
-  text-decoration: none;
-  color: #e0e0e0;
-  &:hover {
-    color: #8cff00;
   }
 }
 
-#smallone2 {
-  &.column {
-    top: 77.5vh;
-  }
-  &.row {
-    top: 52.5vh;
-    left: calc(75vw - 24px);
-  }
-  &:hover {
-    color: #ff9400;
-  }
+#smallone1:hover  {
+  color: #8cff00;
+}
+#smallone2:hover  {
+  color: #ff9400;
+}
+#smallone3:hover  {
+  color: #ff2800;
 }
 
+@for $i from 1 through $numberOfProjects {
+  #smallone#{$i} {
+    &.column {
+      top: calc((100vh / #{$numberOfProjects} ) * (#{$i} - 1 / 2) + 1vh);
+    }
+    &.row {
+      left: calc((100vw / #{$numberOfProjects} ) * (#{$i} - 1 / 2) - 24px);
+    }
+  }
+}
