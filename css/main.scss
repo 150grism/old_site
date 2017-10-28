@@ -26,7 +26,7 @@ body {
   }
   &.column {
     width: 100vw;
-    height: calc((100vh - 2px)/ #{$numberOfProjects});
+    height: calc(100vh / #{$numberOfProjects} - 2px + (1px / #{$numberOfProjects}));
     line-height: calc(100vh / #{$numberOfProjects} - 25px);
     &:not(:first-of-type) {
       border-top: 2px solid rgba(0, 0, 0, 0.2);
